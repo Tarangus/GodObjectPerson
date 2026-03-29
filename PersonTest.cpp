@@ -24,27 +24,26 @@ int main()
 
   
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
-
+    
+    person.SetRandomConditions();
+    conditions = person.GetPhysConditions();
    
-    person.SetInvalideNames(invNames);
-    person.SetName("John");
-    person.SetNickname("JESSI");
-    person.SetSurname("Smith");
-    person.SetPatronym("Smithovich");
-    person.SetAge(30);
+    person.SetName("LEXA");
+    person.SetNickname("IMPRESSIVE");
+    person.SetSurname("BARANOV");
+    person.SetPatronym("BATKOVICH");
+    person.SetAge(rand());
     person.SetGender(rand() %2);
     person.SetRace("Lizardman");
     person.SetGrowth(180.25);
     person.SetWeight(80.2);
     person.SetMainActivity("Programmer");
-    person.SetPhysConditions(conditions);
-    person.SetName("AGUZOK");
-  
-
-	cout << "Current conditions bitfield: " << conditions << endl;
+    person.SetName("AGUZOK", invNames);
+    
+    cout << "Physical condition: " << person.GetPhysConditions() << endl;
 	cout << "Current conditions in binary: ";
     cout << std::bitset<sizeof(conditions)*8>(conditions) << endl;
-    cout << "Physical condition: "  << person.GetPhysConditions() << endl;
+    
     cout << "Name: "                << person.GetName() << endl;
     cout << "Nickname: "            << person.GetNickname() << endl;
     cout << "Invalid name: "        << person.GetInvalidName() << endl;

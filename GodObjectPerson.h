@@ -56,10 +56,17 @@ public:
 	Person();							//default constructor
 	~Person();							//default destructor
 
+	
+
 	/*------------------------------------------SETTERS-----------------------------------------------*/
 	/*---STRINGS---*/
-	void SetNickname(const std::string& nickName)				{ NickName = nickName; }			//set nickname
-	void SetName(const std::string& name)						{ Name = name; }					//set name
+	
+
+	int SetName(const std::string& name, const std::vector<std::string>& invNames);					//setting name with check and return error code if not good, if 0 - good; 
+																									//You can use try/catch/throw exceptions, just #include <stdexcept>
+	
+	void SetName(const std::string& name)						{ Name = name; }					//default set name without checking
+	void SetNickname(const std::string& nickName)				{ NickName = nickName; }			//set nickname	
 	void SetSurname(const std::string& surname)					{ Surname = surname; }				//set surname
 	void SetPatronym(const std::string& patronym)				{ Patronym = patronym; }			//set patronym
 	void SetRace(const std::string& race)						{ Race = race; }					//set race
@@ -156,7 +163,7 @@ public:
 
 	enum ErrorCodesForStrings
 	{
-		invalidName, nameOverflow, nameExist, nameNotExist, nameIsShort, nameIsWrong, nameContainWrongSymbol
+		invalidName = 1, nameOverflow, nameExist, nameNotExist, nameIsShort, nameIsWrong, nameContainWrongSymbol, nameIsEmpty
 	};
 
 	/*----------------------------------------------BOOLS---------------------------------------------*/
