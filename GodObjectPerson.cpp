@@ -1,4 +1,6 @@
 #include "GodObjectPerson.h"
+#include <random>
+#include <climits>
 
 
 Person::Person()
@@ -10,6 +12,16 @@ Person::~Person()
 {
 
 }
+
+
+template<class T>
+void Person::trueRandom(T& value)							//a simple template functon to get a good random number, and to have possibility accept many int types coz template T;
+{
+	static std::mt19937 gen(std::random_device{}());	
+	uint64_t val = (static_cast<uint64_t>(gen()) << 32) | gen();
+	value = std::decay_t<T>(static_cast<T>(val));
+}
+	
 
 
 int Person::SetName(const std::string& name, const std::vector<std::string>& invNames)
@@ -31,17 +43,21 @@ int Person::SetName(const std::string& name, const std::vector<std::string>& inv
 }
 
 
+
 void Person::SetRandomConditions()
 {
-	uint32_t cond = 0;				
-	for (int i = 0; i < 31; ++i)	//32 coz uint32. if 64 then 63 e.t.c
-	{
-		if (std::rand() % 2)		//randomly set each bit
-		{
-			cond |= (1u << i);		//set the i-th bit to 1
-		}
-	}
-	physConditionesBF = cond;		//set the generated bitfield
+	trueRandom(physConditionsMask);
+	trueRandom(mentalConditionsMask);
+}
+
+void Person::SetRandomPhysConditions()
+{
+	trueRandom(physConditionsMask);
+}
+
+void Person::SetRandomMentalConditions()
+{
+	trueRandom(mentalConditionsMask);
 }
 
 

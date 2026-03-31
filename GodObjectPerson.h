@@ -40,12 +40,12 @@
 #define _GODOBJECTPERSON_
 
 /*----------------------------------------------DEFINE BLOCK------------------------------------------*/
-#define uint unsigned int						//to shorten code, because this class has a lot of uint variables
+using uint = unsigned int;						//to shorten code, because this class has a lot of uint variables
 
 /*----------------------------------------------INCLUDES BLOCK----------------------------------------*/
 /*---STL---*/
 #include <string>								//
-#include <cstdint>								//for uint32_t	
+#include <cstdint>								//for uint32_t
 /*---Custom/shared lib---*/
 #include "includes/magic_enum/magic_enum.hpp"	//to count emum elements; free lib on github https://github.com/Neargye/magic_enum/releases/tag/v0.9.7
 
@@ -62,10 +62,8 @@ public:
 	/*---STRINGS---*/
 	
 
+	void SetName(const std::string& name)						{ Name = name; }					//default set name without checking																								//You can use try/catch/throw exceptions, just #include <stdexcept>
 	int SetName(const std::string& name, const std::vector<std::string>& invNames);					//setting name with check and return error code if not good, if 0 - good; 
-																									//You can use try/catch/throw exceptions, just #include <stdexcept>
-	
-	void SetName(const std::string& name)						{ Name = name; }					//default set name without checking
 	void SetNickname(const std::string& nickName)				{ NickName = nickName; }			//set nickname	
 	void SetSurname(const std::string& surname)					{ Surname = surname; }				//set surname
 	void SetPatronym(const std::string& patronym)				{ Patronym = patronym; }			//set patronym
@@ -75,7 +73,7 @@ public:
 	void SetHobbie(const std::string& hobbie)					{ Hobbie = hobbie; }				//set hobbie
 	void SetCharacter(const std::string& character)				{ Character = character; }			//set character of person
 
-	void SetFullName(const std::string& name, const std::string& surname, const std::string& patronym)	//setting full name just by values. if exception - gl;
+	void SetFullName(const std::string& name, const std::string& surname, const std::string& patronym)	//setting full name just by values. without checks;
 	{
 		SetName(name); SetSurname(surname); SetPatronym(patronym);
 	}
@@ -90,13 +88,13 @@ public:
 	void SetAge(uint age)				{ Age = age; }												//Set person Age; same as id
 	void SetGrowth(const auto growth)	{ Growth = static_cast<float> (growth); }					//Setup growth; static_cast to avoid UB
 	void SetWeight(const auto weight)	{ Weight = static_cast<float> (weight); }					//Setup weight; static_cast to avoid UB
-	void SetPhysConditions(uint32_t conditionBitField) { physConditionesBF = conditionBitField; }	//Set conditiones bitfield
+	void SetPhysConditions(auto& conditionBitField) { physConditionsMask = conditionBitField; }		//Set conditiones bitfield
 
 	/*---BOOLS---*/
-	void SetGender(const bool gnd) { const_cast<bool&>(Gender) = gnd; }
+	void SetGender(const bool gnd) { const_cast<bool&>(Gender) = gnd; }								//setting gender
 
 
-	void SetDateOfBirth(const uint day, const uint month, const int year)			//setting date of birth just by values
+	void SetDateOfBirth(const uint day, const uint month, const int year)							//setting date of birth just by values
 	{
 		dateOfBirth_.day = day;
 		dateOfBirth_.month = month;
@@ -104,10 +102,7 @@ public:
 	}
 
 	/*---STRUCTS---*/
-	void SetCurrentCoordinates3D(auto& str)			//simple setter for current coordinates of person in 3D space
-	{
-		currCoord3d_ = str;
-	}
+	
 
 	/*----------------------------------------------GETTERS-----------------------------------------*/
 	/*---STRINGS---*/
@@ -122,26 +117,31 @@ public:
 
 
 	/*---INTS---*/
-	uint GetID() const					{ return Id; }
-	uint GetAge() const					{ return Age; }
-	float GetGrowth() const				{ return Growth; }
-	float GetWeight() const				{ return Weight; }
-	auto& GetPhysConditions() const		{ return physConditionesBF; }		//returning bitfield for physConditiones. auto& is used to futhurer modify bitfield
-	auto& GetMentalConditions() const	{ return mentalConditionesBF; }		//return mentalCond bitfield; same for physConditioones
+	uint GetID() const							{ return Id; }							//return ID
+	uint GetAge() const							{ return Age; }							//return Age
+	float GetGrowth() const						{ return Growth; }						//return Griwth
+	float GetWeight() const						{ return Weight; }						//return Weight
+	auto& GetPhysConditions() const				{ return physConditionsMask; }			//returning bitfield for physConditions. auto& is used to futhurer modify bitfield
+	auto& GetMentalConditions() const			{ return mentalConditionsMask; }		//return mentalCond bitfield; same for physConditions
 
 	/*---BOOLS---*/
-	bool GetGender() const { return Gender; }
+	bool GetGender() const						{ return Gender; }						//i guess it returned sex
 
 	/*---STRUCTS---*/
-	auto& GetDateOfBirth() const			{ return dateOfBirth_; }		//return struct of date of birth
-	auto& GetCurrentCoordinates3d() const	{ return currCoord3d_; }		//return struct of current 3d coord of person
-	auto& GetCurrentCoordinates2d() const	{ return currCoord3d_; }		//return struct of current 2d coord of person
+	auto& GetDateOfBirth() const				{ return dateOfBirth_; }				//return struct of date of birth
+	auto& GetCurrentCoordinates3d() const		{ return currCoord3d_; }				//return struct of current 3d coord of person
+	auto& GetCurrentCoordinates2d() const		{ return currCoord3d_; }				//return struct of current 2d coord of person
 
 	/*----------------------------------------------METHODS-------------------------------------------*/
 
-	bool comparePhysConditiones(const uint32_t conditiones) const {}			//comparing current physConditiones with incoming conditions
-	
-	void SetRandomConditions();													//setting random physConditiones for testing purposes or any other reason
+	bool comparePhysConditiones(const uint32_t conditiones) const {}					//comparing current physConditions with incoming conditions
+
+	template<class T>
+	void trueRandom(T& value);															//a simple template functon to get a good random number, and to have possibility accept many int types coz template T;
+	void SetRandomConditions();															//setting random all conditiones for testing purposes or any other reason
+	void SetRandomPhysConditions();														//randomizing phys conditiones
+	void SetRandomMentalConditions();													//randomizing phys conditiones
+
 
 
 	/*----------------------------------------------ENUMS---------------------------------------------*/
@@ -167,9 +167,7 @@ public:
 	};
 
 	/*----------------------------------------------BOOLS---------------------------------------------*/
-	bool* physConditionesPtr = reinterpret_cast<bool*>(&physConditionesBF);		//pointer for bitfield
-	bool* mentalConditionPtr = reinterpret_cast<bool*>(&mentalConditionesBF);	//pointer for bitfield
-
+	
 	
 
 	/*----------------------------------------------PRIVATE BLOCK-------------------------------------*/
@@ -181,8 +179,8 @@ private:
 	float Growth{};								//float for growth in cm, because some people can be 180.5 cm, for example
 	float Weight{};								//float for weight in kg, because some people can be 75.3 kg, for example
 
-	uint32_t physConditionesBF{};				//bitfield for current physConditiones state; uint32_t guarantees to be 32bit
-	uint32_t mentalConditionesBF{};				//bitfield for current mentalConditiones
+	uint64_t physConditionsMask{};				//bitfield (or modern: mask) for current physConditions state; _t is guarantee that is number_of_bits_t; you can use any
+	uint64_t mentalConditionsMask{};			//bitfield for current mentalConditions; 
 
 	/*----------------------------------------------COMPLEX TYPES-------------------------------------*/
 	//---STRINGS---//
@@ -201,8 +199,8 @@ private:
 	//---VECTOR STRINGS---//
 
 	std::vector<std::string> InvalidNames;		//vector of invalide names
-	std::vector<std::string> InvalidSurnames;	//vector of invalude surnames
-	std::vector<std::string> InvalidPatronyms;	//vector of invalude patronyms
+	std::vector<std::string> InvalidSurnames;	//vector of invalide surnames
+	std::vector<std::string> InvalidPatronyms;	//vector of invalide patronyms
 
 
 	//---STRUCTS---//
@@ -227,7 +225,7 @@ private:
 		float z;
 	}currCoord3d_{};
 
-	struct currentCoordinates2D
+	struct currentCoordinates2D					//2d coords
 	{
 		float x;
 		float y;
