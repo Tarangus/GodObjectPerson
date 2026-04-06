@@ -1,6 +1,5 @@
 #include "GodObjectPerson.h"
-#include <random>
-#include <climits>
+
 
 
 Person::Person()
@@ -14,27 +13,17 @@ Person::~Person()
 }
 
 
-template<class T>
-void Person::trueRandom(T& value)							//a simple template functon to get a good random number, and to have possibility accept many int types coz template T;
-{
-	static std::mt19937 gen(std::random_device{}());	
-	uint64_t val = (static_cast<uint64_t>(gen()) << 32) | gen();
-	value = std::decay_t<T>(static_cast<T>(val));
-}
-	
-
-
 int Person::SetName(const std::string& name, const std::vector<std::string>& invNames)
 {
 	if (name.empty())									//if name empty - just return error int number means name is empty;
 		return nameIsEmpty;
 
-	for (const auto& invalidateName : invNames)			//cycle to check elements of invalidateName
+	for (const auto& worngName : invNames)				//cycle to check elements of invalidateName; auto is:	std::vector<std::string>::const_iterator::value_type = std::string; 
 	{
-		if (name == invalidateName)
+		if (name == worngName)
 		{
-			Person::InvalidName = invalidateName;
-			return invalidName;							//retunr error code if invalide name
+			Person::InvalidName = worngName;
+			return invalidName;							//return error code if invalide name
 		}
 				
 	}
@@ -44,18 +33,18 @@ int Person::SetName(const std::string& name, const std::vector<std::string>& inv
 
 
 
-void Person::SetRandomConditions()
+void Person::SetRandomConditions()						//set both mental and phys RAND 										
 {
 	trueRandom(physConditionsMask);
 	trueRandom(mentalConditionsMask);
 }
 
-void Person::SetRandomPhysConditions()
+void Person::SetRandomPhysConditions()					//set phys RAND 
 {
 	trueRandom(physConditionsMask);
 }
 
-void Person::SetRandomMentalConditions()
+void Person::SetRandomMentalConditions()				//set mental RAND
 {
 	trueRandom(mentalConditionsMask);
 }

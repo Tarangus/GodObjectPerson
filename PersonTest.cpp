@@ -6,12 +6,20 @@
 
 using namespace std;
 
+uint32_t getuint32(char* p) 
+{
+	return (*p << 24) | (*(p + 1) << 16) | (*(p + 2) << 8) | (*(p + 3)); //???????????????
+}
+
 int main()
 {
 	Person person;
 
 	//imitation of incoming data
 	std::vector<std::string> invNames;
+
+	enum x {ha,b,c} x_;
+	person.trueRandom(x_);	//possible, but why and what an expectations? idk
 
 	invNames.push_back("AZAMAT");
 	invNames.push_back("LEXA");
@@ -32,16 +40,17 @@ int main()
 	person.SetMainActivity("Programmer");
 	person.SetName("AGUZOK", invNames);
 
+	
 	cout << "----Conditiones----" << endl;
 
-	auto tmpSetpCond = 66;
+	auto tmpSetpCond = 42;
 	person.SetPhysConditions(tmpSetpCond);
-	cout << "SetPhysConditions:   " << person.GetPhysConditions() << endl;
+	cout << "SetPhysConditions:   "				<< person.GetPhysConditions() << endl;
 
 	person.SetRandomConditions();
-	cout << "Randomed Physical condition:  " << person.GetPhysConditions() << endl;
+	cout << "Randomed Physical condition:  "	<< person.GetPhysConditions() << endl;
 
-	cout << "Randomed Mental condition:    " << person.GetMentalConditions() << endl;
+	cout << "Randomed Mental condition:    "	<< person.GetMentalConditions() << endl;
 
 	auto pConditions = person.GetPhysConditions();
 	auto mConditions = person.GetMentalConditions();
@@ -71,10 +80,10 @@ int main()
 	cout << "Weight:        "		<< person.GetWeight()			<< endl;
 	cout << "Main activity: "		<< person.GetMainActivity()		<< endl << endl;
 
-	/*cout << "Current coordinates: "
-		<< person.GetCurrentCoordinates3d().x << ", "
-		<< person.GetCurrentCoordinates3d().y << ", "
-		<< person.GetCurrentCoordinates3d().z << endl;*/
+	cout	<< "current coordinates: "
+			<< person.GetCurrentCoordinates3d().x << ", "
+			<< person.GetCurrentCoordinates3d().y << ", "
+			<< person.GetCurrentCoordinates3d().z << endl;
 
 	return 0;
 }
