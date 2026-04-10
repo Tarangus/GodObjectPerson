@@ -3,23 +3,13 @@
 #include <cstdlib> // rand() и srand()
 #include <bitset>  // convert uint32_t to binary string
 
-
 using namespace std;
 
-uint32_t getuint32(char* p) 
-{
-	return (*p << 24) | (*(p + 1) << 16) | (*(p + 2) << 8) | (*(p + 3)); //???????????????
-}
-
-int main()
+signed main()
 {
 	Person person;
 
-	//imitation of incoming data
 	std::vector<std::string> invNames;
-
-	enum x {ha,b,c} x_;
-	person.trueRandom(x_);	//possible, but why and what an expectations? idk
 
 	invNames.push_back("AZAMAT");
 	invNames.push_back("LEXA");
@@ -33,9 +23,8 @@ int main()
 	person.SetSurname("BARANOV");
 	person.SetPatronym("BATKOVICH");
 	person.SetAge(rand());
-	person.SetGender(rand() % 2);
 	person.SetRace("Lizardman");
-	person.SetGrowth(180.25);
+	person.SetHeight(180.25);
 	person.SetWeight(80.2);
 	person.SetMainActivity("Programmer");
 	person.SetName("AGUZOK", invNames);
@@ -61,22 +50,17 @@ int main()
 	cout << "   Flip phys:      "	<< ~std::bitset<sizeof(pConditions) * 8>(pConditions) << endl;
 	cout << "   Flip mental:    "	<< ~std::bitset<sizeof(mConditions) * 8>(mConditions) << endl;
 
-	cout << "----STRINGS----"		<< endl;
+	cout << "----STRINGS----"										<< endl;
 	cout << "Name:          "		<< person.GetName()				<< endl;
 	cout << "Nickname:      "		<< person.GetNickname()			<< endl;
 	cout << "Invalid name:  "		<< person.GetInvalidName()		<< endl;
 	cout << "Surname:       "		<< person.GetSurname()			<< endl;
 	cout << "Patronym:      "		<< person.GetPatronym()			<< endl << endl;
 
-	cout << "Age: " << person.GetAge() << endl;
-
-	if (person.GetGender())
-		cout << "Gender: " << "Man" << endl;
-	else
-		cout << "Gender: " << "Woman" << endl;
-
+	cout << "Age:           "		<< person.GetAge()				<< endl;
+	cout << "Gender:        "		<< person.GetGenderStr()		<< endl;
 	cout << "Race:          "		<< person.GetRace()				<< endl;
-	cout << "Growth:        "		<< person.GetGrowth()			<< endl;
+	cout << "Growth:        "		<< person.GetHeight()			<< endl;
 	cout << "Weight:        "		<< person.GetWeight()			<< endl;
 	cout << "Main activity: "		<< person.GetMainActivity()		<< endl << endl;
 

@@ -4,7 +4,7 @@
 
 Person::Person()
 {
-
+	
 }
 
 Person::~Person()
@@ -33,20 +33,31 @@ int Person::SetName(const std::string& name, const std::vector<std::string>& inv
 
 
 
+const std::string Person::GetGenderStr() const
+{
+	switch (Gender)
+	{
+		case 0: return "Unknown";
+		case 1: return "Male";
+		case 2: return "Female";
+		default: return "DGHWEGEWKGE:LF";
+	}
+}
+
 void Person::SetRandomConditions()						//set both mental and phys RAND 										
 {
-	trueRandom(physConditionsMask);
-	trueRandom(mentalConditionsMask);
+	TrueRandom(physConditionsMask);
+	TrueRandom(mentalConditionsMask);
 }
 
 void Person::SetRandomPhysConditions()					//set phys RAND 
 {
-	trueRandom(physConditionsMask);
+	TrueRandom(physConditionsMask);
 }
 
 void Person::SetRandomMentalConditions()				//set mental RAND
 {
-	trueRandom(mentalConditionsMask);
+	TrueRandom(mentalConditionsMask);
 }
 
 
