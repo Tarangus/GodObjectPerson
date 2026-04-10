@@ -1,9 +1,10 @@
 #include "GodObjectPerson.h"
 
 
+
 Person::Person()
 {
-
+	
 }
 
 Person::~Person()
@@ -17,12 +18,12 @@ int Person::SetName(const std::string& name, const std::vector<std::string>& inv
 	if (name.empty())									//if name empty - just return error int number means name is empty;
 		return nameIsEmpty;
 
-	for (const auto& invalidateName : invNames)			//cycle to check elements of invalidateName
+	for (const auto& worngName : invNames)				//cycle to check elements of invalidateName; auto is:	std::vector<std::string>::const_iterator::value_type = std::string; 
 	{
-		if (name == invalidateName)
+		if (name == worngName)
 		{
-			Person::InvalidName = invalidateName;
-			return invalidName;							//retunr error code if invalide name
+			Person::InvalidName = worngName;
+			return invalidName;							//return error code if invalide name
 		}
 				
 	}
@@ -31,17 +32,32 @@ int Person::SetName(const std::string& name, const std::vector<std::string>& inv
 }
 
 
-void Person::SetRandomConditions()
+
+const std::string Person::GetGenderStr() const
 {
-	uint32_t cond = 0;				
-	for (int i = 0; i < 31; ++i)	//32 coz uint32. if 64 then 63 e.t.c
+	switch (Gender)
 	{
-		if (std::rand() % 2)		//randomly set each bit
-		{
-			cond |= (1u << i);		//set the i-th bit to 1
-		}
+		case 0: return "Unknown";
+		case 1: return "Male";
+		case 2: return "Female";
+		default: return "DGHWEGEWKGE:LF";
 	}
-	physConditionesBF = cond;		//set the generated bitfield
+}
+
+void Person::SetRandomConditions()						//set both mental and phys RAND 										
+{
+	TrueRandom(physConditionsMask);
+	TrueRandom(mentalConditionsMask);
+}
+
+void Person::SetRandomPhysConditions()					//set phys RAND 
+{
+	TrueRandom(physConditionsMask);
+}
+
+void Person::SetRandomMentalConditions()				//set mental RAND
+{
+	TrueRandom(mentalConditionsMask);
 }
 
 

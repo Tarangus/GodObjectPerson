@@ -430,3 +430,5 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+/unsigned_float.h
+/unsigned_float.h.gch
