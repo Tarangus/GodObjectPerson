@@ -14,16 +14,18 @@
 #ifndef _GODOBJECTPERSON_ 
 #define _GODOBJECTPERSON_
 
-/*----------------------------------------------DEFINE BLOCK------------------------------------------*/
-using uint = unsigned int;						//to shorten code, because this class has a lot of uint variables
-
 /*----------------------------------------------INCLUDES BLOCK----------------------------------------*/
 /*---STL---*/
-#include <string>								//good std class for work with strings
-#include <cstdint>								//for unsigned ints 8/16/32/64
-#include <random>								//to create a template trueRandom func with good return number
+#include <string>										//good std class for work with strings
+#include <cstdint>										//for unsigned ints 8/16/32/64
+#include <random>										//to create a template trueRandom func with good return number
 
 /*---custom/shared lib---*/
+
+/*----------------------------------------------DEFINE BLOCK------------------------------------------*/
+using uint = unsigned int;								//to shorten code, because this class has a lot of uint variables
+constexpr uint8_t MIN_STRING_LENGTH = 3;
+static unsigned long idCount = 0;
 
 /*----------------------------------------------COLOSSAL-CLASS----------------------------------------*/
 class Person
@@ -32,7 +34,7 @@ class Person
 private:
 	/*------------------------------------------BASIC TYPES-------------------------------------------*/
 	uint Id{};											//any object have id; {} - is default initialization.
-	uint Age{};
+	int AgeInYears{};
 	float Height{};										
 	float Weight{};										
 
@@ -128,19 +130,19 @@ public:
 
 	/*---INTS---*/  
 	void SetID(uint id)											{ Id = id; }														
-	void SetAge(uint age)										{ Age = age; }												
-	void SetHeight(auto height)									{ Height = height; }					
-	void SetWeight(auto weight)									{ Weight = weight; }					
+	void SetAge(uint age)										{ AgeInYears = age; }												
+	void SetHeight(float height)								{ Height = height; }					
+	void SetWeight(float weight)								{ Weight = weight; }
 
-	void SetPhysConditions(auto& conditionBitField) { physConditionsMask = conditionBitField; }	
+	void SetPhysConditions(const auto& conditionBitField)		{ physConditionsMask = conditionBitField; }	
 
-	auto SetGender(auto gender)
+	void SetGender(auto gender)
 	{
 		Gender = gender;
 	}
 
 	/*---STRUCTS---*/
-	void SetDateOfBirth(const uint day, const uint month, const int year)					//setting date of birth just by values
+	void SetDateOfBirth(uint day, uint month, int year)					//setting date of birth just by values
 	{
 		birth_date.day = day;
 		birth_date.month = month;
@@ -160,10 +162,10 @@ public:
 
 	/*---INTS---*/
 	uint GetID()									const		{ return Id; }							
-	uint GetAge()									const		{ return Age; }							
+	uint GetAge()									const		{ return AgeInYears; }							
 	float GetHeight()								const		{ return Height; }						
 	float GetWeight()								const		{ return Weight; }						
-	const auto& GetPhysConditions()					const		{ return physConditionsMask; }			//returning bitfield for physConditions. auto& is used to futhurer modify bitfield
+	const auto& GetPhysConditions()					const		{ return physConditionsMask; }			//returning bitfield for physConditions. auto& is used to futhure modify bitfield
 	const auto& GetMentalConditions()				const		{ return mentalConditionsMask; }		
 	const auto& GetGender()							const		{ return Gender; }						
 
@@ -185,21 +187,21 @@ public:
 		value = std::decay_t<T>(static_cast<T>(val));
 	}
 
-	//easy to delete block, it can be useful, but yeah: additional bytes and managment;
-	void SetRandomConditions();															//setting random all conditiones for testing purposes or any other reason
-	void SetRandomPhysConditions();														
-	void SetRandomMentalConditions();													
+	bool isShort(const std::string& str) const 
+	{ 
+		return str.length() < MIN_STRING_LENGTH; 
+	}
 
 	/*----------------------------------------------ENUMS---------------------------------------------*/
-	typedef enum GenderType 
+	enum GenderType 
 	{ 
 		Unknown,
 		Male, 
 		Female
 	};	
-	GenderType Gender{ GenderType::Unknown };
+	GenderType Gender{ GenderType::Unknown };				//unknown is useful, and it is default value. option
 
-	typedef enum 							//for setting phys bitfield based on enum value. 
+	enum 							//for setting phys bitfield based on enum value. 
 	{
 		isHealthy		= (1u << 0),  isSick		= (1u << 1), isInjured		= (1u << 2), isDead			= (1u << 3),
 		isTired			= (1u << 4),  isRested		= (1u << 5), isDrunk		= (1u << 6), isSober		= (1u << 7),
@@ -207,7 +209,7 @@ public:
 		isPoisoned		= (1u << 12), isRadiated	= (1u << 13), isInfected	= (1u << 14), isCured		= (1u << 15)
 	}physConditions;
 
-	typedef enum 							//for setting mental bitfield based on enum value
+	enum 							//for setting mental bitfield based on enum value
 	{
 		isHappy			= (1u << 0), isAnxious		= (1u << 4), isHysteri		= (1u << 8),  isFocused		= (1u << 12),
 		isSad			= (1u << 1), isConfident	= (1u << 5), isBerserk		= (1u << 9),  isDistracted	= (1u << 13),

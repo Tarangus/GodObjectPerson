@@ -36,7 +36,6 @@ signed main()
 	person.SetPhysConditions(tmpSetpCond);
 	cout << "SetPhysConditions:   "				<< person.GetPhysConditions() << endl;
 
-	person.SetRandomConditions();
 	cout << "Randomed Physical condition:  "	<< person.GetPhysConditions() << endl;
 
 	cout << "Randomed Mental condition:    "	<< person.GetMentalConditions() << endl;
