@@ -40,7 +40,6 @@ const std::string Person::GetGenderStr() const
 		case 0: return "Unknown";
 		case 1: return "Male";
 		case 2: return "Female";
-		default: return "DGHWEGEWKGE:LF";
 	}
 }
 
