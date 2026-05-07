@@ -4,7 +4,8 @@
  *			But you can make a good realisation of your great class of everything; Because gods knowing everything
  *			 
  *
- * @author Victor Bersenev aka Tarangus
+ * @author Victor Bersenev aka Tarangus 
+ * @github https://github.com/Tarangus
  * @date 2026-04-10
  * @version 1.0
  */
