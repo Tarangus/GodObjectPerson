@@ -202,7 +202,7 @@ public:
 		}
 	}
 	//easy to delete block, it can be useful, but yeah: additional bytes and managment;
-	void SetRandomConditions();																		//setting random all conditiones for testing purposes or any other reason
+	void SetRandomConditions();																			// setting random all conditiones for testing purposes or any other reason
 	void SetRandomPhysConditions();														
 	void SetRandomMentalConditions();													
 
