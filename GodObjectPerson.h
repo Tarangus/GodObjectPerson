@@ -16,13 +16,13 @@
 #define _GODOBJECTPERSON_
 
 /*----------------------------------------------DEFINE BLOCK------------------------------------------*/
-using uint = unsigned int;						//to shorten code, because this class has a lot of uint variables
+using uint = unsigned int;						// to shorten code, because this class has a lot of uint variables
 
 /*----------------------------------------------INCLUDES BLOCK----------------------------------------*/
 /*---STL---*/
-#include <string>								//good std class to work with strings
-#include <cstdint>								//for unsigned ints 8/16/32/64
-#include <random>								//to create a template trueRandom func with good return number
+#include <string>								// good std class to work with strings
+#include <cstdint>								// for unsigned ints 8/16/32/64
+#include <random>								// to create a template trueRandom func with good return number
 
 /*---custom/shared lib---*/
 
@@ -215,7 +215,7 @@ public:
 	};	
 	GenderType Gender{ GenderType::Unknown };
 
-	typedef enum 							//for setting phys bitfield based on enum value. 
+	typedef enum 							// for setting phys bitfield based on enum value. 
 	{
 		isHealthy		= (1u << 0),  isSick		= (1u << 1), isInjured		= (1u << 2), isDead			= (1u << 3),
 		isTired			= (1u << 4),  isRested		= (1u << 5), isDrunk		= (1u << 6), isSober		= (1u << 7),
@@ -223,7 +223,7 @@ public:
 		isPoisoned		= (1u << 12), isRadiated	= (1u << 13), isInfected	= (1u << 14), isCured		= (1u << 15)
 	}physConditions;
 
-	typedef enum 							//for setting mental bitfield based on enum value
+	typedef enum 							// for setting mental bitfield based on enum value
 	{
 		isHappy			= (1u << 0), isAnxious		= (1u << 4), isHysteri		= (1u << 8),  isFocused		= (1u << 12),
 		isSad			= (1u << 1), isConfident	= (1u << 5), isBerserk		= (1u << 9),  isDistracted	= (1u << 13),
