@@ -23,6 +23,7 @@ using uint = unsigned int;						// to shorten code, because this class has a lot
 #include <string>								// good std class to work with strings
 #include <cstdint>								// for unsigned ints 8/16/32/64
 #include <random>								// to create a template trueRandom func with good return number
+#include <concepts>								// for random function
 
 /*---custom/shared lib---*/
 
@@ -186,20 +187,20 @@ public:
 		uint64_t val = (static_cast<uint64_t>(gen()) << 32) | gen();
 		value = std::decay_t<T>(static_cast<T>(val));
 	}
-	template<typename T, typename RangeType>
-	void TrueRandom(T& value, RangeType min, RangeType max)												// Universal template func with floating
+	template <std::arithmetic T>
+	void TrueRandom(T& value, T min, T max) 
 	{
-		thread_local static std::mt19937_64 gen(std::random_device{}());
-		if constexpr (std::is_floating_point_v<T>)
-		{
-			std::uniform_real_distribution<T> dis(static_cast<T>(min), static_cast<T>(max));
-			value = dis(gen);
-		}
-		else 
-		{
-			std::uniform_int_distribution<T> dis(static_cast<T>(min), static_cast<T>(max));
-			value = dis(gen);
-		}
+	    thread_local static std::mt19937_64 gen(std::random_device{}());
+	    if constexpr (std::floating_point<T>) 
+	    {
+	        std::uniform_real_distribution<T> dis(min, max);
+	        value = dis(gen);
+	    } 
+	    else 
+	    {
+	        std::uniform_int_distribution<T> dis(min, max);
+	        value = dis(gen);
+	    }
 	}
 	//easy to delete block, it can be useful, but yeah: additional bytes and managment;
 	void SetRandomConditions();																			// setting random all conditiones for testing purposes or any other reason
